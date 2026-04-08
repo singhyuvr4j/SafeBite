@@ -7,6 +7,13 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![NVIDIA NIM](https://img.shields.io/badge/NVIDIA_NIM-76B900?logo=nvidia)](https://build.nvidia.com/)
+[![OpenAI Compatible](https://img.shields.io/badge/OpenAI-Compatible-412991?logo=openai)](https://openai.com/)
+[![Open Food Facts](https://img.shields.io/badge/Open_Food_Facts-API-orange)](https://world.openfoodfacts.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?logo=prisma)](https://www.prisma.io/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn/ui-Component-000000)](https://ui.shadcn.com/)
+[![Zustand](https://img.shields.io/badge/Zustand-State-443E38)](https://zustand-demo.pmnd.rs/)
 
 **SafeBite** is an AI-powered food safety scanner designed specifically for Indian snacks and packaged foods. It analyzes nutritional information, identifies potential health risks, and provides personalized safety recommendations based on your age group.
 
@@ -19,6 +26,7 @@
 
 ### 🧠 AI-Powered Analysis
 - Powered by NVIDIA NIM (Gemma 4 31B model)
+- OpenAI-compatible API integration
 - Comprehensive ingredient analysis
 - Allergen detection and warnings
 - Nutritional breakdown with health insights
@@ -105,42 +113,6 @@ Tailored analysis for:
 | [Framer Motion](https://www.framer.com/motion/) | Animations |
 | [Zustand](https://zustand-demo.pmnd.rs/) | State management |
 
-## 📁 Project Structure
-
-```
-SafeBite/
-├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── api/                # API routes
-│   │   │   ├── analyze/        # AI analysis endpoint
-│   │   │   ├── barcode/        # Barcode lookup endpoint
-│   │   │   └── image/          # Image analysis endpoint
-│   │   ├── about/              # About page
-│   │   ├── privacy/            # Privacy policy
-│   │   ├── terms/              # Terms of service
-│   │   └── page.tsx            # Home page
-│   ├── components/
-│   │   ├── safebite/           # SafeBite components
-│   │   │   ├── Hero.tsx
-│   │   │   ├── ScannerSection.tsx
-│   │   │   ├── ResultsSection.tsx
-│   │   │   ├── Navigation.tsx
-│   │   │   ├── Footer.tsx
-│   │   │   └── CookieBanner.tsx
-│   │   └── ui/                 # shadcn/ui components
-│   ├── lib/
-│   │   ├── services/           # Service modules
-│   │   │   ├── nvidiaAI.ts     # NVIDIA NIM integration
-│   │   │   └── openFoodFacts.ts # OFF API integration
-│   │   ├── prompts/            # AI prompts
-│   │   └── db.ts               # Database client
-│   ├── store/                  # Zustand stores
-│   └── types/                  # TypeScript types
-├── prisma/
-│   └── schema.prisma           # Database schema
-└── public/                     # Static assets
-```
-
 ## 🔌 API Endpoints
 
 ### `GET /api/barcode/:code`
@@ -211,13 +183,26 @@ const languages = [
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We welcome contributions from the community! Whether you're a developer, designer, or just passionate about food safety, there are many ways to contribute:
+
+### Ways to Contribute
+
+- 🐛 **Report Bugs** - Found a bug? [Open an issue](https://github.com/singhyuvr4j/SafeBite/issues)
+- 💡 **Suggest Features** - Have an idea? We'd love to hear it!
+- 🔧 **Submit Pull Requests** - Fix bugs or add new features
+- 📖 **Improve Documentation** - Help make our docs better
+- 🌍 **Add Translations** - Help us support more languages
+- ⭐ **Star the Repo** - Show your support!
+
+### Getting Started with Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+Check our [Issues](https://github.com/singhyuvr4j/SafeBite/issues) page for good first issues!
 
 ## 📝 License
 
@@ -238,8 +223,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  <p>Made with ❤️ for safer food choices</p>
-  <p>
-    <a href="#-safebite">Back to Top</a>
-  </p>
+  
+  ### 🌱 Stay Healthy, Keep Surrounding Healthy 🌱
+  
+  *Your food choices today shape your tomorrow. Make every bite count.*
+  
+  ---
+  
+  **Made with ❤️ for safer food choices**
+  
+  [⬆ Back to Top](#-safebite)
+  
 </div>
