@@ -17,6 +17,14 @@
 
 **SafeBite** is an AI-powered food safety scanner designed specifically for Indian snacks and packaged foods. It analyzes nutritional information, identifies potential health risks, and provides personalized safety recommendations based on your age group.
 
+## 📸 Screenshots
+
+> 🖼️ Screenshots coming soon! The app features a modern, responsive UI with:
+> - Clean scanning interface with multiple input methods
+> - Real-time analysis progress indicators
+> - Color-coded ingredient safety ratings
+> - Detailed nutritional breakdowns
+
 ## ✨ Features
 
 ### 🔍 Multiple Scanning Methods
@@ -55,13 +63,22 @@ Tailored analysis for:
 - Pregnant Women
 - Elderly (60+ years)
 
-## 🚀 Getting Started
+## 🚀 Quick Start
+
+### Try Sample Barcodes
+Test the app with these sample barcodes that work offline:
+| Barcode | Product |
+|---------|---------|
+| `6111266962187` | Jaouda Semi-Skimmed Milk |
+| `8901058841405` | Maggi 2-Minute Noodles |
+| `8901030664514` | Britannia Good Day Cookies |
+| `8901719104010` | Parle-G Glucose Biscuits |
 
 ### Prerequisites
 
-- Node.js 18+ or Bun
-- npm or bun package manager
-- NVIDIA NIM API key ([Get one here](https://build.nvidia.com/))
+- Node.js 18+ 
+- npm package manager
+- NVIDIA NIM API key ([Get one free here](https://build.nvidia.com/))
 
 ### Installation
 
@@ -74,13 +91,16 @@ Tailored analysis for:
 2. **Install dependencies**
    ```bash
    npm install
-   # or
-   bun install
    ```
 
 3. **Set up environment variables**
-
-   Create a `.env` file in the root directory:
+   
+   Copy the example file and add your API key:
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` and add your NVIDIA NIM API key:
    ```env
    DATABASE_URL="file:./db/custom.db"
    NVIDIA_API_KEY="your_nvidia_nim_api_key_here"
@@ -112,6 +132,23 @@ Tailored analysis for:
 | [Open Food Facts](https://world.openfoodfacts.org/) | Product database |
 | [Framer Motion](https://www.framer.com/motion/) | Animations |
 | [Zustand](https://zustand-demo.pmnd.rs/) | State management |
+
+## 🌍 Deployment
+
+### Deploy to Vercel (Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/singhyuvr4j/SafeBite)
+
+1. Click the button above
+2. Add your `NVIDIA_API_KEY` environment variable
+3. Deploy!
+
+### Environment Variables for Production
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `DATABASE_URL` | SQLite database path | Yes |
+| `NVIDIA_API_KEY` | Your NVIDIA NIM API key | Yes |
 
 ## 🔌 API Endpoints
 
@@ -166,10 +203,10 @@ The app uses a custom color palette:
 
 | Color | Usage |
 |-------|-------|
-| Primary (Orange-red) | Brand color |
-| Safe (Green) | Safe ingredients |
-| Caution (Yellow) | Caution ingredients |
-| Avoid (Red) | Avoid ingredients |
+| Primary (Orange-red `#e8500a`) | Brand color |
+| Safe (Green `#2d6a4f`) | Safe ingredients |
+| Caution (Yellow `#f59e0b`) | Caution ingredients |
+| Avoid (Red `#dc2626`) | Avoid ingredients |
 
 ### Adding New Languages
 
@@ -180,6 +217,17 @@ const languages = [
   'English', 'Hindi', 'Bengali', // Add more here
 ];
 ```
+
+## 🗺️ Roadmap
+
+- [ ] User accounts and scan history
+- [ ] Save favorite products
+- [ ] Compare products side-by-side
+- [ ] Offline mode with service worker
+- [ ] Mobile app (React Native)
+- [ ] Browser extension for shopping sites
+- [ ] Integration with fitness apps
+- [ ] Personalized daily nutrition goals
 
 ## 🤝 Contributing
 
@@ -204,21 +252,34 @@ We welcome contributions from the community! Whether you're a developer, designe
 
 Check our [Issues](https://github.com/singhyuvr4j/SafeBite/issues) page for good first issues!
 
+## 🛡️ Security
+
+### Reporting Vulnerabilities
+
+If you discover a security vulnerability, please do NOT open a public issue. Instead, email us at `security@safebite.app` (or open a private security advisory on GitHub).
+
+### API Key Safety
+
+- Never commit your NVIDIA API key to the repository
+- Use environment variables for all sensitive data
+- The `.env` file is excluded from git via `.gitignore`
+
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- [Open Food Facts](https://world.openfoodfacts.org/) for the comprehensive food product database
-- [NVIDIA NIM](https://build.nvidia.com/) for AI inference capabilities
-- [shadcn/ui](https://ui.shadcn.com/) for the beautiful UI components
-- FSSAI, WHO, FDA, EU standards for nutritional guidelines
+- [Open Food Facts](https://world.openfoodfacts.org/) for the comprehensive food product database (2.9M+ products)
+- [NVIDIA NIM](https://build.nvidia.com/) for fast, reliable AI inference
+- [shadcn/ui](https://ui.shadcn.com/) for the beautiful, accessible UI components
+- [FSSAI](https://www.fssai.gov.in/), [WHO](https://www.who.int/), [FDA](https://www.fda.gov/), EU standards for nutritional guidelines
 
 ## 📞 Support
 
-- 🐛 Issues: [GitHub Issues](https://github.com/singhyuvr4j/SafeBite/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/singhyuvr4j/SafeBite/discussions)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/singhyuvr4j/SafeBite/issues)
+- 💬 **Questions**: [GitHub Discussions](https://github.com/singhyuvr4j/SafeBite/discussions)
+- 📧 **Email**: support@safebite.app
 
 ---
 
@@ -227,6 +288,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   ### 🌱 Stay Healthy, Keep Surrounding Healthy 🌱
   
   *Your food choices today shape your tomorrow. Make every bite count.*
+  
+  **⭐ If you found this project helpful, please consider giving it a star! ⭐**
   
   ---
   
