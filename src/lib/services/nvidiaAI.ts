@@ -3,9 +3,13 @@ import { SAFEBITE_SYSTEM_PROMPT } from '@/lib/prompts/safebiteSystem';
 import type { AnalysisResult } from '@/types/analysis';
 
 // NVIDIA NIM API configuration
-const NVIDIA_API_KEY = 'YOUR_NVIDIA_NIM_API_KEY_HERE';
+const NVIDIA_API_KEY = process.env.NVIDIA_API_KEY || '';
 const NVIDIA_BASE_URL = 'https://integrate.api.nvidia.com/v1';
 const NVIDIA_MODEL = 'google/gemma-4-31b-it';
+
+if (!NVIDIA_API_KEY) {
+  console.warn('Warning: NVIDIA_API_KEY environment variable is not set');
+}
 
 // Initialize OpenAI client pointing to NVIDIA NIM
 const client = new OpenAI({
