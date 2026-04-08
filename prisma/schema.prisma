@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Cache for Open Food Facts products
+model CachedProduct {
+  id          String   @id @default(cuid())
+  barcode     String   @unique
+  productData String   // JSON string of product data from Open Food Facts
+  imageUrl    String?
+  productName String?
+  brand       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  analyses    AnalysisResult[]
+}
+
+// Cache for AI analysis results
+model AnalysisResult {
+  id           String   @id @default(cuid())
+  productId    String?
+  barcode      String?
+  productData  String?  // JSON string of analyzed product data
+  analysisData String   // JSON string of AI analysis result
+  language     String
+  ageGroup     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  product      CachedProduct? @relation(fields: [productId], references: [id])
+}
+
+// Cookie consent tracking
+model CookieConsent {
+  id           String   @id @default(cuid())
+  sessionId    String   @unique
+  essential    Boolean  @default(true)
+  analytics    Boolean  @default(false)
+  functional   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
