@@ -48,6 +48,8 @@ const loadingSteps = [
   'Fetching product data...',
   'Analyzing ingredients...',
   'Checking safety standards...',
+  'Calling NVIDIA AI API...',
+  'Processing AI analysis...',
   'Generating recommendations...',
   'Preparing your report...',
 ];

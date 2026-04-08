@@ -100,9 +100,10 @@ export function ScannerSection() {
     setError(null);
     setAnalysisResult(null);
 
+    // Slower animation for longer API calls
     for (let i = 0; i < loadingSteps.length; i++) {
       setLoadingStep(i);
-      await new Promise((resolve) => setTimeout(resolve, 800 + Math.random() * 400));
+      await new Promise((resolve) => setTimeout(resolve, 1200 + Math.random() * 600));
     }
   };
 
@@ -134,7 +135,10 @@ export function ScannerSection() {
         });
       }
 
-      // Then analyze
+      // Then analyze with extended timeout (5 minutes)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 min timeout
+
       const analyzeResponse = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -143,9 +147,23 @@ export function ScannerSection() {
           language,
           ageGroup,
         }),
+        signal: controller.signal,
       });
 
-      const analyzeData = await analyzeResponse.json();
+      clearTimeout(timeoutId);
+
+      // Get response text first to handle incomplete JSON
+      const responseText = await analyzeResponse.text();
+      let analyzeData;
+      
+      try {
+        analyzeData = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Failed to parse analyze response:', responseText.substring(0, 500));
+        setError('Analysis response was incomplete. Please try again.');
+        setIsLoading(false);
+        return;
+      }
 
       if (!analyzeResponse.ok) {
         setError(analyzeData.error || 'Analysis failed');
@@ -153,9 +171,19 @@ export function ScannerSection() {
         return;
       }
 
+      if (!analyzeData.analysis) {
+        setError('Analysis result was incomplete. Please try again.');
+        setIsLoading(false);
+        return;
+      }
+
       setAnalysisResult(analyzeData.analysis as AnalysisResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      if (err instanceof Error && err.name === 'AbortError') {
+        setError('Analysis timed out after 5 minutes. The AI service may be experiencing high load. Please try again.');
+      } else {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -323,7 +351,7 @@ export function ScannerSection() {
                     <Input
                       id="barcode-input"
                       type="text"
-                      placeholder="e.g., 6111266962187"
+                      placeholder="Enter barcode number"
                       value={barcode}
                       onChange={(e) => setBarcode(e.target.value)}
                       className="flex-1"

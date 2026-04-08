@@ -3,6 +3,10 @@ import { analyzeWithAI } from '@/lib/services/nvidiaAI';
 import { fetchProduct } from '@/lib/services/openFoodFacts';
 import { db } from '@/lib/db';
 
+// Set max duration for this API route (for Vercel/serverless)
+// 300 seconds = 5 minutes to match NVIDIA API timeout
+export const maxDuration = 300;
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
