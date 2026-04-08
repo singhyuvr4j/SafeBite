@@ -218,6 +218,74 @@ const languages = [
 ];
 ```
 
+## ⚠️ Known Issues
+
+As this is a beta version, here are some known limitations:
+
+- **Barcode Scanner**: Camera scanning may not work on all browsers/devices. Use manual entry as fallback.
+- **Database Path**: On some systems, SQLite relative paths may not resolve correctly. Use absolute paths if you encounter database errors.
+- **Open Food Facts API**: Some products may not have complete nutritional data. The AI will analyze based on available information.
+- **Image Analysis**: High-resolution images may take longer to process. Recommended image size: < 2MB.
+
+## 🔧 Troubleshooting
+
+### Database Errors
+
+**Error: `Unable to open the database file`**
+
+If you see this error, the SQLite path is not resolving correctly. Update your `.env` file with an absolute path:
+
+```env
+# Instead of:
+DATABASE_URL="file:./db/custom.db"
+
+# Use absolute path (macOS/Linux):
+DATABASE_URL="file:/Users/yourname/projects/SafeBite/db/custom.db"
+
+# Or on Windows:
+DATABASE_URL="file:C:/Users/yourname/projects/SafeBite/db/custom.db"
+```
+
+Then reinitialize:
+```bash
+npx prisma db push
+```
+
+### API Errors
+
+**Error: `Invalid API Key`**
+- Verify your NVIDIA NIM API key is correct
+- Ensure you have credits/quota available at [build.nvidia.com](https://build.nvidia.com/)
+- Check that the key has access to the `google/gemma-4-31b-it` model
+
+**Error: `Product not found`**
+- The barcode may not exist in the Open Food Facts database
+- Try scanning a different product
+- Check if the barcode is valid (usually 8-14 digits)
+
+### Build Errors
+
+**Error: `Module not found`**
+```bash
+# Clear cache and reinstall
+rm -rf node_modules .next
+npm install
+```
+
+**Error: `Prisma Client not generated`**
+```bash
+npx prisma generate
+```
+
+### Camera/Scanner Issues
+
+**Camera not working:**
+- Ensure you're using HTTPS (required for camera access)
+- Check browser permissions for camera access
+- Try a different browser (Chrome/Firefox recommended)
+
+---
+
 ## 🗺️ Roadmap
 
 - [ ] User accounts and scan history
