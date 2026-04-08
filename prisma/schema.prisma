@@ -1,12 +1,41 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// ============================================
+// DATABASE CONFIGURATION
+// ============================================
+// SafeBite supports multiple database backends:
+//
+// 1. PostgreSQL (Recommended for Production)
+//    - Supabase: https://supabase.com
+//    - Neon: https://neon.tech
+//    - Railway: https://railway.app
+//    - Any PostgreSQL provider
+//
+// 2. MongoDB
+//    - MongoDB Atlas: https://www.mongodb.com/atlas
+//    - Any MongoDB provider
+//
+// 3. SQLite (Development/Local only)
+//    - Local file-based database
+//
+// To switch databases, update your .env file:
+// - PostgreSQL: DATABASE_URL="postgresql://user:password@host:5432/dbname"
+// - MongoDB:    DATABASE_URL="mongodb+srv://user:password@cluster.mongodb.net/dbname"
+// - SQLite:     DATABASE_URL="file:./db/custom.db"
+//
+// And change the provider below accordingly:
+// - PostgreSQL: provider = "postgresql"
+// - MongoDB:    provider = "mongodb"
+// - SQLite:     provider = "sqlite"
+// ============================================
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"  // Change to "sqlite" or "mongodb" if needed
   url      = env("DATABASE_URL")
 }
 
@@ -36,7 +65,7 @@ model AnalysisResult {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  product      CachedProduct? @relation(fields: [productId], references: [id])
+  product      CachedProduct? @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 // Cookie consent tracking

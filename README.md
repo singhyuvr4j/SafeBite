@@ -12,6 +12,9 @@
 [![OpenAI Compatible](https://img.shields.io/badge/OpenAI-Compatible-412991?logo=openai)](https://openai.com/)
 [![Open Food Facts](https://img.shields.io/badge/Open_Food_Facts-API-orange)](https://world.openfoodfacts.org/)
 [![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?logo=prisma)](https://www.prisma.io/)
+[![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?logo=supabase)](https://supabase.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supported-4169E1?logo=postgresql)](https://www.postgresql.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Supported-47A248?logo=mongodb)](https://www.mongodb.com/)
 [![shadcn/ui](https://img.shields.io/badge/shadcn/ui-Component-000000)](https://ui.shadcn.com/)
 [![Zustand](https://img.shields.io/badge/Zustand-State-443E38)](https://zustand-demo.pmnd.rs/)
 
@@ -100,9 +103,12 @@ Test the app with these sample barcodes that work offline:
    cp .env.example .env
    ```
    
-   Edit `.env` and add your NVIDIA NIM API key:
+   Edit `.env` with your configuration:
    ```env
-   DATABASE_URL="file:./db/custom.db"
+   # Database (choose one - see Database section below)
+   DATABASE_URL="your_database_connection_string"
+   
+   # NVIDIA NIM API Key
    NVIDIA_API_KEY="your_nvidia_nim_api_key_here"
    ```
 
@@ -118,6 +124,82 @@ Test the app with these sample barcodes that work offline:
 
 6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 🗄️ Database Configuration
+
+SafeBite supports multiple database backends. Choose the one that best fits your needs:
+
+### Quick Database Selection
+
+| Database | Best For | Provider Examples |
+|----------|----------|-------------------|
+| **Supabase (PostgreSQL)** | Production, Free tier, Real-time | [supabase.com](https://supabase.com) |
+| **Neon (PostgreSQL)** | Production, Serverless | [neon.tech](https://neon.tech) |
+| **MongoDB Atlas** | Production, Flexible schema | [mongodb.com/atlas](https://www.mongodb.com/atlas) |
+| **SQLite** | Development, Local testing | Local file |
+
+### Database Setup Options
+
+#### Option 1: Supabase (Recommended for Production)
+
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase)](https://supabase.com)
+
+1. Create a free account at [supabase.com](https://supabase.com)
+2. Create a new project
+3. Go to **Settings → Database** and copy the connection string
+4. Update your `.env`:
+   ```env
+   DATABASE_URL="postgresql://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres"
+   ```
+
+#### Option 2: Neon (Serverless PostgreSQL)
+
+[![Neon](https://img.shields.io/badge/Neon-00E5FF?logo=neon)](https://neon.tech)
+
+1. Create a free account at [neon.tech](https://neon.tech)
+2. Create a new project
+3. Copy the connection string
+4. Update your `.env`:
+   ```env
+   DATABASE_URL="postgresql://[user]:[password]@[endpoint].neon.tech/[dbname]?sslmode=require"
+   ```
+
+#### Option 3: MongoDB Atlas
+
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb)](https://www.mongodb.com/atlas)
+
+1. Create a free account at [mongodb.com/atlas](https://www.mongodb.com/atlas)
+2. Create a new cluster
+3. Get your connection string
+4. Update `.env`:
+   ```env
+   DATABASE_URL="mongodb+srv://[username]:[password]@[cluster].mongodb.net/safebite?retryWrites=true&w=majority"
+   ```
+5. **Important**: Update `prisma/schema.prisma` to use MongoDB:
+   ```prisma
+   datasource db {
+     provider = "mongodb"
+     url      = env("DATABASE_URL")
+   }
+   ```
+
+#### Option 4: SQLite (Development Only)
+
+For local development without any external database:
+
+```env
+DATABASE_URL="file:./db/custom.db"
+```
+
+> ⚠️ **Note**: SQLite is not recommended for production deployments.
+
+### Switching Databases
+
+To switch between databases:
+
+1. Update `DATABASE_URL` in your `.env` file
+2. If switching to/from MongoDB, update the `provider` in `prisma/schema.prisma`
+3. Run `npm run db:push` to sync the schema
 
 ## 🏗️ Tech Stack
 
@@ -145,10 +227,10 @@ Test the app with these sample barcodes that work offline:
 
 ### Environment Variables for Production
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `DATABASE_URL` | SQLite database path | Yes |
-| `NVIDIA_API_KEY` | Your NVIDIA NIM API key | Yes |
+| Variable | Description | Required | Example |
+|----------|-------------|----------|---------|
+| `DATABASE_URL` | Database connection string | Yes | `postgresql://...` or `mongodb+srv://...` |
+| `NVIDIA_API_KEY` | Your NVIDIA NIM API key | Yes | `nvapi-...` |
 
 ## 🔌 API Endpoints
 
@@ -223,31 +305,44 @@ const languages = [
 As this is a beta version, here are some known limitations:
 
 - **Barcode Scanner**: Camera scanning may not work on all browsers/devices. Use manual entry as fallback.
-- **Database Path**: On some systems, SQLite relative paths may not resolve correctly. Use absolute paths if you encounter database errors.
 - **Open Food Facts API**: Some products may not have complete nutritional data. The AI will analyze based on available information.
 - **Image Analysis**: High-resolution images may take longer to process. Recommended image size: < 2MB.
+- **Database Connections**: Some cloud providers (Neon free tier) pause databases after inactivity. Wake-up may take a few seconds.
 
 ## 🔧 Troubleshooting
 
 ### Database Errors
 
-**Error: `Unable to open the database file`**
+**Error: `Unable to open the database file` (SQLite)**
 
-If you see this error, the SQLite path is not resolving correctly. Update your `.env` file with an absolute path:
+If using SQLite, the path may not resolve correctly. Use an absolute path:
 
 ```env
-# Instead of:
-DATABASE_URL="file:./db/custom.db"
-
-# Use absolute path (macOS/Linux):
+# macOS/Linux
 DATABASE_URL="file:/Users/yourname/projects/SafeBite/db/custom.db"
 
-# Or on Windows:
+# Windows
 DATABASE_URL="file:C:/Users/yourname/projects/SafeBite/db/custom.db"
 ```
 
-Then reinitialize:
+**Error: `Can't reach database server` (Supabase/Neon/PostgreSQL)**
+
+- Verify your connection string is correct
+- Check if your IP is whitelisted (some providers require this)
+- Ensure the database is not paused (Neon free tier pauses after inactivity)
+- Try using the direct connection URL instead of pooled connection
+
+**Error: `MongoServerError: Authentication failed`**
+
+- Verify your username and password in the connection string
+- Check if the database user has the correct permissions
+- Ensure the IP is whitelisted in Atlas
+
+**Prisma Schema Issues**
+
+If you changed the database provider, regenerate the client:
 ```bash
+npx prisma generate
 npx prisma db push
 ```
 
